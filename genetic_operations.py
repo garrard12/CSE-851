@@ -182,7 +182,7 @@ class CrossOver(BaseOperations):
         return self.cross_operations[cross_type](*args, **kwds) if np.random.rand() < self.cross_prob[cross_type] else -1 
 
     def single_point_cross(self,program_one,program_two):
-        
+
         max_cross_point = min(len(program_one),len(program_two))
         cross_point = np.random.randint(1,max_cross_point)
 
