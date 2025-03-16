@@ -7,19 +7,19 @@ import numpy as np
 
 
 # class Function:
-    # def __init__(self,
-    #              *,
-    #              function_set = None
-    #              ):
-    #     self.function_set = function_set or {
-    #         "add" : np.add(x,y),
-    #         "sub" : np.subtract(),
-    #         "div" : self.protected_division
+def __init__(self,
+            *,
+            function_set = None
+            ):
+    self.function_set = function_set or {
+        "add" : np.add(x,y),
+        "sub" : np.subtract(),
+        "div" : self.protected_division
 
-    #     }
+    }
         
  
-        # pass 
+    
 
 def __call__(self, *args, **kwds):
     pass
