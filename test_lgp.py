@@ -3,6 +3,10 @@ import unittest
 
 from self_LGP_system import *
 
+
+### TODO Write some Test case to make sure the code actual works
+## TODO add comments on to everything 
+
 class TestFile(unittest.TestCase):
 
     def setUp(self):

@@ -17,9 +17,9 @@ class Function:
             "mul" : self.mul,
             "max" : self.max,
             "min" : self.min,
-            "log" : self.protected_log,
-            "sqrt" : self.protected_square_root,
-            "inv" : self.protected_inverse,
+            #"log" : self.protected_log,
+            #"sqrt" : self.protected_square_root,
+            #"inv" : self.protected_inverse,
             "div" : self.protected_division
         }    
 

@@ -65,7 +65,7 @@ class Mutation(BaseOperations):
             print(f"Unknown mutation type: {mutation_type}")
             return -1 
 
-        # TODO Make sure this is a return orn
+        # TODO Make sure this is a return 
         # see if it should do the mutation or not this might git mover to fit functions later  
         return self.mutation_operations[mutation_type](*args, **kwds) if np.random.rand() < self.mutation_probs[mutation_type] else -1 
 
