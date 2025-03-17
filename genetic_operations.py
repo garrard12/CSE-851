@@ -19,10 +19,9 @@ class BaseOperations:
         ## TODO Make sure these being regular list don't cause some kind of problems
         self.constants = constants or [i for i in range(-5,6)]
 
-        self.operations = operations or ["+","-","*","/"]
+        self.operations = operations or ["+","-","*","/"] # To handle artery could do {+:(np.add,2)}
         
         self.variables = variables or  ["x","y","z"]
-
 
 
 ##########################################################################################
@@ -42,10 +41,6 @@ class Mutation(BaseOperations):
                 ):        
         super().__init__(constants=constants, variables=variables, operations = operations, seed=seed)
 
-
-        # if seed is not None:
-        #     np.random.seed(seed)
-
         self.mutation_operations = { 
             "swap" : self.swap_mutation,
             "single_point" : self.single_point_mutation,
@@ -59,14 +54,8 @@ class Mutation(BaseOperations):
             "single_point" : .1,
             "scramble" : .1,
             "inversion" : .1,
-            "custom " : .1
+            "custom" : .1
         }
-
-        # ## TODO Make sure these being regular list don't cause some kind of problems
-        # self.constants = constants or [i for i in range(-5,6)]
-
-        # self.operations = variables or ["+","-","*","/"]
-
 
     def __call__(self,mutation_type=None,*args, **kwds):
         if mutation_type == None:
@@ -76,9 +65,6 @@ class Mutation(BaseOperations):
             print(f"Unknown mutation type: {mutation_type}")
             return -1 
 
-        # ## TODO If I want to make it were I can regeate the probs would I need to put the see here 
-        # do_mutation =  self.mutation_operations[mutation_type](*args, **kwds) if np.random < self.mutation[mutation_type]     
-
         # TODO Make sure this is a return orn
         # see if it should do the mutation or not this might git mover to fit functions later  
         return self.mutation_operations[mutation_type](*args, **kwds) if np.random.rand() < self.mutation_probs[mutation_type] else -1 
@@ -86,6 +72,8 @@ class Mutation(BaseOperations):
 
     # For the function below I already know I am doing the mutation
     def single_point_mutation(self,program):
+
+        ## TODO When working with artirty this is the only one that will need to be updated 
         mutation_point = np.random.randint(0,len(program))  
         program[mutation_point] = np.random.choice(self.operations + self.constants) 
         return program
@@ -206,7 +194,4 @@ class CrossOver(BaseOperations):
 
     def custom_cross(self):
         pass
-
-    def temp(self):
-        pass 
 

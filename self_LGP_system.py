@@ -73,45 +73,17 @@ class LGP:
         # how many pop are need for this 
         pass 
 
-    # def fitness_models():
-    #     # MSE - Means squared  error 
-    #     # Normalized fitness 
-    #     # classification accuracy 
-    #     # RMSE 
-    #     # Sum of squared Error 
-    #     # Possible make it where they can add there own 
-    #     pass 
 
     def interpert():
         # this pretty much run the program 
         # this might be replaced with run program 
         pass
-    # def cross_over():
-    #     # Is this going to be single point 
-    #     # multiple point 
-    #     # going to need to need to take
-    #     pass 
-
-    # def mutation(): 
-    #     # what style of mutation will be used 
-    #     # is this going to be changing constants or just the function 
-    #     # Do I want to favor random or towards the font/end 
-    #     pass
+ 
 
     def make_fitness_function():
         #look into how this is being checked 
         # is this a higher value better or lower better GPlearn use a boolean
         pass     
-
-    # def make_function():
-    #     # This allow user to add custom function, add sub etc to the set 
-    #     # intake arteries  
-    #     # Is the function a real thing  
-    #     pass     
-
-    # def protect_function():
-    #     # this should be in it only file and make each of the function safe to be used 
-    #     pass
 
     def print_program(self,message):
         # the program 
@@ -119,8 +91,6 @@ class LGP:
         # the whole populations 
         # 
         print(message)
-
-    
 
 
 class fitness: 
