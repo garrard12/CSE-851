@@ -1,7 +1,6 @@
 import numpy as np 
 
 
-## TODO Make this a class
 
 # This could be adding the value for each like add ect or just do I do what GPlearn did with the function class becuase it so clean 
 
@@ -54,7 +53,7 @@ class Function:
         return np.where(np.abs(denominator) > .001, np.divide(numerator,denominator),numerator)  
 
 
-    ## TODO To add these will some way to keep track of artery of the program
+    ## TODO To add these will some have way to keep track of artery of the program
     # def protected_log(self,x):
     #     return np.where(np.abs(x) > .001, np.log(x),0) 
 

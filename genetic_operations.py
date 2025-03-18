@@ -3,7 +3,6 @@ import numpy as np
 
 ## TODO Make were they can favor up and lower mutation possible 
 
-
 class BaseOperations:
     def __init__(self,
                  *,
@@ -29,7 +28,7 @@ class BaseOperations:
 ##########################################################################
 
 ## TODO DO I make it were there is something in the init class have know the mutation prob
-
+## DONE? possible
 class Mutation(BaseOperations):
     def __init__(self,
                  *,
@@ -86,7 +85,7 @@ class Mutation(BaseOperations):
         index_one = np.random.randint(0,len(program)) 
         index_two = np.random.randint(0,len(program))
 
-        ## NOTE: Should I do the below cause it make sure a mutation is happening but it is adding in more 
+        ## NOTE: Should I delete the below cause it make sure a mutation is happening but it is adding in more 
         # human involvement    
         while index_two == index_one: 
             index_one = np.random.randint(0,len(program)) 

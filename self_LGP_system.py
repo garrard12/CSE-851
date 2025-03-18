@@ -1,3 +1,31 @@
+''''
+
+TODO 
+
+TODO Find an example problem to test the code 
+TODO Make it were the code actually runs 
+TODO Based on the Current layout there is not way to tell if it should be a min or max fitness 
+    - This could be done in the fitness class when defining like the arity 
+TODO Fix the arirty in the code to allow for it take 1 and 2 inputs 
+TODO Make a .ibpy file showing everything that this program can do 
+TODO Need to print the program and which one is the best 
+TODO Comment all of the code 
+TODO Fix the inputs it seems right now that I am having to hard code some of it
+TODO There are many area that I return one sine it is invaled input so Ill need to change that 
+
+# EXTRA 
+TODO Make it were you can add your own custom function 
+    - Cross over 
+    - Mutation 
+    - fitness 
+    - functions
+TODO make it were the pip works 
+'''
+
+
+
+
+
 
 import numpy as np
 
@@ -18,10 +46,11 @@ class LGP:
                  stopping_criteria = .01, 
                  metric = "mse",
                  ## TODO this should change to a dic or make it were all those values become each thing 
-                 crossover_prob = .05,
-                 mutation_prob = .03,  
+                 crossover_prob = None,
+                 mutation_prob = None,  
 
-                 function_set = TEMP_FUNCTION_SET,  # this might be add back in to later 
+                 # The reasons that these are none is that I define this in the class 
+                 function_set = None,   
                  constants = None,
                  variables = None, 
                  # This will be used to make the gp at first 
@@ -43,8 +72,6 @@ class LGP:
         self.function_set = function_set  
         self.metric = metric
         self.p_crossover = crossover_prob
-        #self.p_mutation = mutation_prob 
-        #self.constants = constants
         self.min_length = min_length
         self.max_length = max_length
         self.seed = seed 
@@ -57,6 +84,7 @@ class LGP:
                                        operations=function_set,
                                        seed = seed
                                        )
+        
         self.cross_over_class = CrossOver(cross_prob=crossover_prob,
                                        constants=constants,
                                        variables=variables,
@@ -73,8 +101,12 @@ class LGP:
     
 
     def run_program(self):
+        '''
         
+
+        '''
         population = self.create_population()
+
         best_idv = None
         for gen in range(self.generation):
             print(f"Generation {gen}/{self.generation}")
@@ -85,6 +117,9 @@ class LGP:
         print(f"After {self.population_size} the best was {best_idv}")
 
     def next_generation(self,population):
+        '''
+        
+        '''
         new_population = []
         for _ in range(len(population) // 2):
             #TODO make a torment selection 
@@ -102,6 +137,10 @@ class LGP:
 
 
     def find_fitness(self,population):
+        '''
+        
+        
+        '''
         # TODO this wont work for normalized since it returns a list not a int and if could fix but there gotta be a 
         # better way
         all_fitness = []
@@ -110,6 +149,10 @@ class LGP:
         return all_fitness
 
     def generate_program(self):
+        ''''
+        
+
+        '''
         program_length = np.random.randint(self.min_length,self.max_length)
         program = []
         for _ in range(program_length): 
@@ -126,16 +169,26 @@ class LGP:
     
 
     def create_population(self):
+        '''
+        Makes the population of programs tha is decided in initiation of class  
+        '''
         population = [self.generate_program for _ in range(self.population_size)]
         return population
 
     def interpreter(self,program):
+        '''
+        
+        '''
         for item in program:
             function_name, *args = item
             result = self.function_class(function=function_name,*args) 
         return result
     
     def print_program(self,message):
+        '''
+        
+
+        '''
         # the program 
         # is this going to be the best 
         # the whole populations 

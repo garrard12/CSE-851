@@ -1,7 +1,6 @@
 
 import numpy as np 
 
-## TODO Make this a class
 class Fitness:
     def __init__(self,
                 #  *,
