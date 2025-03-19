@@ -22,6 +22,15 @@ class BaseOperations:
         
         self.variables = variables or  ["x","y","z"]
 
+    def get_operations(self):
+        return self.operations 
+    
+    def get_variables(self):
+        return self.variables
+
+    def get_constants(self):
+        return self.constants 
+
 
 ##########################################################################################
 ## Mutations 

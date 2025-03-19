@@ -10,7 +10,7 @@ class Function:
                 function_set = None
                 ):
         
-
+        temp = function_set
         # so Ill unpack to which one is the problem and from there 
         self.function_set = function_set or {
             "add" : (self.add, 2 ), 
@@ -25,6 +25,7 @@ class Function:
         }    
 
     def __call__(self, function = None, *args, **kwds):
+        print("in call")
         # TODO check to see if there is to full fill the artery
         if function == None:
             print("No function type was defined")
@@ -38,10 +39,11 @@ class Function:
         if len(args) != artery_count:
             print("Artery do not match")
             return -1 
-
-
         return func(*args)
 
+
+    def get_function_set(self):
+        return self.function_set.copy()
 
     def add(self,x,y):
         return np.add(x,y)
@@ -56,14 +58,13 @@ class Function:
         return np.maximum(x,y)
     
     def min(self,x,y):
+        print("work")
         return np.minimum(x,y)
 
     # Had to get rid of np.where because it does all the operatio first then check which to chose from 
     def protected_division(self,numerator,denominator):
         return np.divide(numerator, denominator) if np.abs(denominator) > 0.001 else 0
 
-
-    ## TODO To add these will some have way to keep track of artery of the program
     def protected_log(self,x):
         return np.log(x) if np.abs(x) > .001 else 0
 
