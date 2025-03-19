@@ -7,7 +7,7 @@ from self_LGP_system import *
 ### TODO Write some Test case to make sure the code actual works
 ## TODO add comments on to everything 
 
-class TestFile(unittest.TestCase):
+class TestFIle(unittest.TestCase):
 
     def setUp(self):
         self.lgp = LGP()
@@ -30,6 +30,9 @@ class TestFile(unittest.TestCase):
         self.assertEqual(new_lgp.p_crossover, 0.1)
         self.assertEqual(new_lgp.function_set, [])
         self.assertEqual(new_lgp.metric, [])
+
+
+    
 
     
 if __name__ == '__main__':

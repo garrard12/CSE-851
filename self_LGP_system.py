@@ -1,7 +1,4 @@
 ''''
-
-TODO 
-
 TODO Find an example problem to test the code 
 TODO Make it were the code actually runs 
 TODO Based on the Current layout there is not way to tell if it should be a min or max fitness 
