@@ -19,13 +19,12 @@ class Function:
             "max" : (self.max, 2),
             "min" : (self.min, 2),
             "div" : (self.protected_division, 2),
-            "log" : (self.protected_log, 1),
+           # "log" : (self.protected_log, 1),
             "sqrt" : (self.protected_square_root, 1),
             "inv" : (self.protected_inverse, 1)
         }    
 
     def __call__(self, function = None, *args, **kwds):
-        print("in call")
         # TODO check to see if there is to full fill the artery
         if function == None:
             print("No function type was defined")
@@ -39,6 +38,7 @@ class Function:
         if len(args) != artery_count:
             print("Artery do not match")
             return -1 
+        
         return func(*args)
 
 
@@ -58,7 +58,6 @@ class Function:
         return np.maximum(x,y)
     
     def min(self,x,y):
-        print("work")
         return np.minimum(x,y)
 
     # Had to get rid of np.where because it does all the operatio first then check which to chose from 
@@ -66,13 +65,13 @@ class Function:
         return np.divide(numerator, denominator) if np.abs(denominator) > 0.001 else 0
 
     def protected_log(self,x):
-        return np.log(x) if np.abs(x) > .001 else 0
+        return np.log(x) if np.abs(x) > .01 else 0
 
     def protected_square_root(self,x):
         return np.sqrt(np.abs(x))
 
     def protected_inverse(self,x):
-        return np.invert(np.abs(x))
+        return x * -1 
 
     def custom_function(self):
         pass

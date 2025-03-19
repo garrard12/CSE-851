@@ -3,12 +3,14 @@ TODO Find an example problem to test the code
 TODO Make it were the code actually runs 
 TODO Based on the Current layout there is not way to tell if it should be a min or max fitness 
     - This could be done in the fitness class when defining like the arity 
-TODO Fix the arirty in the code to allow for it take 1 and 2 inputs 
 TODO Make a .ibpy file showing everything that this program can do 
 TODO Need to print the program and which one is the best 
 TODO Comment all of the code 
 TODO Fix the inputs it seems right now that I am having to hard code some of it
 TODO There are many area that I return one sine it is invaled input so Ill need to change that 
+
+TODO Think about a way to find a program that work
+
 
 # EXTRA 
 TODO Make it were you can add your own custom function 
@@ -105,6 +107,7 @@ class LGP:
         self.generation = generation
         self.stopping_criteria = stopping_criteria 
         self.function_set = self.function_class.get_function_set() 
+        self.fitness_set = self.fitness_class.get_all_fitness()
         self.metric = metric
         self.p_crossover = crossover_prob
         self.min_length = min_length
@@ -120,23 +123,7 @@ class LGP:
         print("in call for LGP")
 
         pass
-    
 
-    # def run_program(self):
-    #     '''
-        
-
-    #     '''
-    #     population = self.create_population()
-
-    #     best_idv = None
-    #     for gen in range(self.generation):
-    #         print(f"Generation {gen}/{self.generation}")
-    #         fitness = self.find_fitness(population=population)
-    #         best_idv = np.minimum(fitness) # there no way to tell if it should be min or maxing at current moment
-            
-    #         population = self.create_population(population)
-    #     print(f"After {self.population_size} the best was {best_idv}")
 
     def fit(self,):
         '''
@@ -145,9 +132,16 @@ class LGP:
 
         population = self.create_population()
         print("Population,",population)
-        print("Population lenght", len(population))
+        print("Population length", len(population))
         
+        for _ in range(self.generation):
+            
+            value = self.interpreter(population=population)
+            
 
+        
+                
+        return None
 
 
     def next_generation(self,population):
@@ -179,9 +173,12 @@ class LGP:
         # better way
         all_fitness = []
         for program in population:
-            all_fitness.append(self.fitness_class(program,fitness=self.metric))
-        return all_fitness
+            all_fitness.append(self.fitness_class(self.metric,program))
 
+        if all_fitness == -1:
+            return -1 
+        return all_fitness
+    
     def generate_program(self):
         ''''
         
@@ -192,7 +189,7 @@ class LGP:
         for _ in range(program_length): 
             operation = np.random.choice(list(self.function_set.keys()))
             x = np.random.choice(list(self.function_set.keys()), size=1, replace=True) # This is in an np array and it is going to cuase a problem
-            print("x",x)
+            # print("x",x)
             values_to_pick = self.cross_over_class.get_constants() #+ self.cross_over_class.get_variables()
             if operation in ["log","sqrt","inv"]:
                 # TODO Make this Dynamic for custom fucntions
@@ -202,7 +199,7 @@ class LGP:
             else:
                 x,y = np.random.choice(values_to_pick, size=2, replace=True)
                 program.append([operation,x,y])
-            print("ind",program)
+            # print("ind",program)
         return program
     
 
@@ -215,13 +212,22 @@ class LGP:
         population = [self.generate_program() for _ in range(self.population_size)]
         return population
 
-    def interpreter(self,program):
+    def interpreter(self,population):
         '''
         
         '''
-        for item in program:
-            function_name, *args = item
-            result = self.function_class(function=function_name,*args) 
+        all_result = []
+        for program in population:
+            result = 0
+            for ind in program:
+                function_name, *args = ind
+                # print(function_name)
+                # print(*args)
+                # print(self.function_class(function_name,*args))
+                result += self.function_class(function_name,*args) 
+                # print()
+            all_result.append(result)
+            # print("Program result",result) 
         return result
     
     def print_program(self,message):
