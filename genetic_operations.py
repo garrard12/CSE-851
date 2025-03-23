@@ -1,4 +1,5 @@
 import numpy as np 
+import random
 
 
 ## TODO Make were they can favor up and lower mutation possible 
@@ -14,6 +15,7 @@ class BaseOperations:
                 ):
         if seed is not None:
             np.random.seed(seed)
+            random.seed(seed)
      
         ## TODO Make sure these being regular list don't cause some kind of problems
         self.constants = constants or [i for i in range(-5,6)]
@@ -51,7 +53,7 @@ class Mutation(BaseOperations):
 
         self.mutation_operations = { 
             "swap" : self.swap_mutation,
-            "single_point" : self.single_point_mutation,
+            #"single_point" : self.single_point_mutation,
             "scramble" : self.scramble_mutation,
             "inversion" : self.inversion_mutation,
             "custom" : self.custom_mutation
@@ -67,43 +69,44 @@ class Mutation(BaseOperations):
 
     def __call__(self,mutation_type=None,*args, **kwds):
         if mutation_type == None:
-            print("No mutation type was defined")
-            return -1 
+            raise ValueError("No mutation type was defined")
         if mutation_type not in self.mutation_operations:
             print(f"Unknown mutation type: {mutation_type}")
-            return -1 
+            raise ValueError(f"Unknown mutation type: {mutation_type}")
 
-        # TODO Make sure this is a return 
-        # see if it should do the mutation or not this might git mover to fit functions later  
-        return self.mutation_operations[mutation_type](*args, **kwds) if np.random.rand() < self.mutation_probs[mutation_type] else -1 
+        return self.mutation_operations[mutation_type](*args) if random.random() < self.mutation_probs[mutation_type] else args[0]
 
 
     # For the function below I already know I am doing the mutation
-    def single_point_mutation(self,program):
+    # TODO 
+    # def single_point_mutation(self,program):
 
-        ## TODO When working with artirty this is the only one that will need to be updated 
-        mutation_point = np.random.randint(0,len(program))  
-        program[mutation_point] = np.random.choice(self.operations + self.constants) 
-        return program
-
+    #     ## TODO When working with artirty this is the only one that will need to be updated 
+    #     mutation_point = random.randint(0,len(program) - 1)  
+    #     program[mutation_point] = random.choice(self.operations + self.constants) 
+    #     return program
+    
+    # NOTE Works
     def swap_mutation(self,program):
         if len(program) < 2: 
             print("Swap need at least length 2")
-            return -1 
+            return program 
 
-        index_one = np.random.randint(0,len(program)) 
-        index_two = np.random.randint(0,len(program))
+       # print(f"Program before swap {program}")
+        index_one = random.randint(1,len(program) - 1) 
+        index_two = random.randint(1,len(program) - 1)
 
         ## NOTE: Should I delete the below cause it make sure a mutation is happening but it is adding in more 
         # human involvement    
         while index_two == index_one: 
-            index_one = np.random.randint(0,len(program)) 
+            index_one = random.randint(0,len(program) - 1) 
 
         # Swap the index values
-        program[[index_one, index_two]] = program[[index_two,index_one]]
-
+        program[index_one], program[index_two] = program[index_two], program[index_one]
+        #print(f"Program after swap {program}")
         return program
 
+    # NOTE Works 
     def scramble_mutation(self,program):
         ''''
         Since Iam not keeping track of the arity at the moment 5:13 pm this 
@@ -111,28 +114,31 @@ class Mutation(BaseOperations):
         '''
         if len(program) < 2:
             print("Swap need at least length 2")
-            return -1 
+            return program
 
-        upper_bound = np.random.randint(0,len(program))
-        lower_bound = np.random.randint(0,upper_bound)
-
+        upper_bound = random.randint(1,len(program) - 1)
+        lower_bound = random.randint(0,upper_bound)
+        #print(f"program before scramble {program}")
         program_segment = program[lower_bound:upper_bound]
-        np.random.shuffle(program_segment)
-        program[lower_bound:upper_bound] = program_segment
+        random.shuffle(program_segment)  
+        program[lower_bound:upper_bound] = program_segment  
+        #print(f"program after scramble {program}")
         return program 
-
+    
+    # NOTE WORKS 
     def inversion_mutation(self,program):
         if len(program) < 2:
-            print("Swap need at least length 2")
-            return -1 
+            print("inversion need at least length 2")
+            return program 
 
-        upper_bound = np.random.randint(0,len(program))
-        lower_bound = np.random.randint(0,upper_bound)
+        upper_bound = random.randint(0,len(program) - 1)
+        lower_bound = random.randint(0,upper_bound)
 
+       # print(f"program before inversion {program}")
         program_segment = program[lower_bound:upper_bound]
         reversed_program = program_segment[::-1]
         program[lower_bound:upper_bound] = reversed_program
-
+        #print(f"program after inversion {program}")
         return program
 
     def custom_mutation(self,program):
@@ -169,34 +175,56 @@ class CrossOver(BaseOperations):
 
     def __call__(self, cross_type = None, *args, **kwds):
         if cross_type is None:
-            print("Please select a cross type")
-            return -1 
+            raise ValueError()
         if cross_type not in self.cross_operations:
-            print("Operations not in Cross")
-            return -1 
-        
-        return self.cross_operations[cross_type](*args, **kwds) if np.random.rand() < self.cross_prob[cross_type] else -1 
+            raise ValueError("Operations not in Cross")
 
+        print("return statment \n", self.cross_operations[cross_type](*args) if random.random() < self.cross_prob[cross_type] else (args[0],args[0]) )
+
+        return self.cross_operations[cross_type](*args) if random.random() < self.cross_prob[cross_type] else (args[0],args[0]) 
+
+    #NOTE Works
     def single_point_cross(self,program_one,program_two):
 
+
+
         max_cross_point = min(len(program_one),len(program_two))
-        cross_point = np.random.randint(1,max_cross_point)
+        if max_cross_point <= 1:
+            print("In valid cross point")
+            return program_one,program_two
+
+        cross_point = random.randint(1,max_cross_point - 1)
+
+        #print(f"before single cross {program_one} {program_two}")
 
         off_spring_one = program_one[:cross_point] + program_two[cross_point:]
         off_spring_two = program_two[:cross_point] + program_one[cross_point:]
 
-        return off_spring_one,off_spring_two
+        #print(f"After single cross {off_spring_one} {off_spring_two}")
+        print("in single cross point")
+        return off_spring_one, off_spring_two
 
-
+    #NOTE WORks
     def multi_point_cross(self,program_one,program_two):
-        
-        max_cross_point = min(len(program_one), len(program_two))
 
-        upper_cross = np.random.randint(1, max_cross_point)
-        lower_cross = np.random.randint(upper_cross, max_cross_point)
+        '''
+        There is no min for the number to swaped so it could just do a single point swap  
+        
+        '''        
+        max_cross_point = min(len(program_one), len(program_two))
+        if max_cross_point <= 1:
+            print("In valid cross point")
+            return program_one,program_two
+
+
+        upper_cross = random.randint(1, max_cross_point)
+        lower_cross = random.randint(upper_cross, max_cross_point)
+
+        print(f"before multi cross {program_one} {program_two}")
 
         off_spring_one = program_one[:upper_cross] + program_two[upper_cross:lower_cross] + program_one[lower_cross:]
         off_spring_two = program_two[:upper_cross] + program_one[upper_cross:lower_cross] + program_two[lower_cross:]
+        print(f"After multi cross {off_spring_one} {off_spring_two}")
 
         return off_spring_one,off_spring_two
 

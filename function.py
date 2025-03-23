@@ -13,7 +13,7 @@ class Function:
         temp = function_set
         # so Ill unpack to which one is the problem and from there 
         self.function_set = function_set or {
-            "add" : (self.add, 2 ), 
+            "add" : (self.add, 2), 
             "sub" : (self.sub, 2),
             "mul" : (self.mul, 2),
             "max" : (self.max, 2),
@@ -27,17 +27,18 @@ class Function:
     def __call__(self, function = None, *args, **kwds):
         # TODO check to see if there is to full fill the artery
         if function == None:
-            print("No function type was defined")
-            return -1 
+            # print("No function type was defined")
+            raise ValueError("No function type was defined")
+        # print(f"function {function}")
         if function not in self.function_set:
-            print(f"Unknown function type: {function}")
-            return -1
+            # print(f"Unknown function type: {function}")
+            raise  ValueError(f"Unknown function type: {function}")
         
         func, artery_count = self.function_set[function]
 
         if len(args) != artery_count:
-            print("Artery do not match")
-            return -1 
+            # print("Artery do not match")
+            raise  ValueError("Artery do not match") 
         
         return func(*args)
 
