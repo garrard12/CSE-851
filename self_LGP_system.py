@@ -1,6 +1,5 @@
 ''''
 TODO Find an example problem to test the code 
-TODO Make it were the code actually runs 
 
 TODO Make a .ibpy file showing everything that this program can do 
 TODO Need to print the program and which one is the best 
@@ -43,7 +42,7 @@ class LGP:
     def __init__(self,
                  *, # Following arguments need to be passed by key arguments 
                  population_size = 4, 
-                 generation = 5,
+                 generation = 50,
                  stopping_criteria = .01, 
                  metric = "mse",
                  crossover_prob = None,
@@ -108,7 +107,6 @@ class LGP:
 
     def __call__(self, *args, **kwds):
         print("in call for LGP")
-
         pass
 
 
@@ -148,6 +146,17 @@ class LGP:
         # self.print_all_program(fitness_contender,"fitness_contender")
         # print("best_ind",best_ind)
         return best_ind
+    
+    def find_best_individual(self,population,pop_fitness):
+        temp = []
+        for i in range(len(population)):
+            temp.append([population[i],pop_fitness[i]])
+
+        if self.fitness_set[self.metric][1]:
+            best_ind = max(temp)
+        else:
+            best_ind = min(temp)
+        return best_ind
 
     def fit(self,):
         '''
@@ -163,8 +172,13 @@ class LGP:
             population_values = self.interpreter(population=population)
             population_fitness = self.find_fitness(population_values)
 
+            best_individual, best_fitness_score = self.find_best_individual(population=population,
+                                                                            pop_fitness=population_fitness)
+
+            print(f"Best individual {best_individual} Fitness Score: {best_fitness_score}")
+
             population = self.next_generation(population,population_fitness)
-            print(f"New population  {population}")
+            #print(f"New population  {population}")
             # run a toroment maybe do a normalition of the function
             #still need to create a new population
                 

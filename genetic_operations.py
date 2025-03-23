@@ -179,8 +179,6 @@ class CrossOver(BaseOperations):
         if cross_type not in self.cross_operations:
             raise ValueError("Operations not in Cross")
 
-        print("return statment \n", self.cross_operations[cross_type](*args) if random.random() < self.cross_prob[cross_type] else (args[0],args[0]) )
-
         return self.cross_operations[cross_type](*args) if random.random() < self.cross_prob[cross_type] else (args[0],args[0]) 
 
     #NOTE Works
@@ -201,7 +199,7 @@ class CrossOver(BaseOperations):
         off_spring_two = program_two[:cross_point] + program_one[cross_point:]
 
         #print(f"After single cross {off_spring_one} {off_spring_two}")
-        print("in single cross point")
+        # print("in single cross point")
         return off_spring_one, off_spring_two
 
     #NOTE WORks
@@ -220,11 +218,11 @@ class CrossOver(BaseOperations):
         upper_cross = random.randint(1, max_cross_point)
         lower_cross = random.randint(upper_cross, max_cross_point)
 
-        print(f"before multi cross {program_one} {program_two}")
+        #print(f"before multi cross {program_one} {program_two}")
 
         off_spring_one = program_one[:upper_cross] + program_two[upper_cross:lower_cross] + program_one[lower_cross:]
         off_spring_two = program_two[:upper_cross] + program_one[upper_cross:lower_cross] + program_two[lower_cross:]
-        print(f"After multi cross {off_spring_one} {off_spring_two}")
+        #print(f"After multi cross {off_spring_one} {off_spring_two}")
 
         return off_spring_one,off_spring_two
 
